@@ -1,0 +1,107 @@
+#Fibonacci Non-Recursive----------------------------------------------------------
+
+n=int(input("Enter number: "))
+a=0
+b=1
+c=0
+if n<=1:
+    print(n)
+else:
+    print(a)
+    print(b)
+    for i in range(2,n):
+        c=a+b
+        print(c)
+        a=b
+        b=c
+
+
+#Fibonacci Recursive--------------------------------------------------------------
+
+def fibr(n):
+    if n<=1:
+        return(n)
+    else:
+        return(fibr(n-1)+fibr(n-2))
+    
+n=int(input("Enter number: "))
+for i in range(n):
+    print(fibr(i))
+    
+    
+    
+#Fractional Knapsack----------------------------------------------------------
+
+W=10
+arr=[[500,30]]
+final=0
+arr.sort(key=lambda x: (x[0]/x[1]),reverse= True)
+
+for i in range(len(arr)):
+    if arr[i][1]<=W:
+        final+=arr[i][0]
+        W-=arr[i][1]
+        
+    else:
+        final+=arr[i][0]*(W/arr[i][1])
+        break
+
+print(final)
+
+#0/1 Knapsack------------------------------------------------------------------
+
+def knap(W,wt,val,n):
+    K=[[0 for i in range (W+1)] for i in range(n+1)]
+    
+    for i in range(n+1):
+        for w in range(W+1):
+            if i==0 or w==0:
+                K[i][w]=0
+            elif wt[i-1]<=w:
+                K[i][w]= max(val[i-1]+K[i-1][w-wt[i-1]],K[i-1][w])
+            else:
+                K[i][w] =K[i-1][w]
+                
+    return K[n][W]
+    
+W=6
+val=[10,15,40]
+wt=[1,2,3]
+n=len(wt)
+
+knap(W,wt,val,n)
+
+#N-Queens------------------------------------------------------------------------------
+
+N=int(input("Enter number of queens: "))
+
+board=[[0]*N for i in range(N)]
+
+def in_danger(i,j):
+    for k in range(N):
+        if board[i][k]==1 or board[k][j]==1:
+            return True
+    for k in range(N):
+        for l in range(N):
+            if (k+l==i+j) or (k-l==i-j):
+                if board[k][l]==1:
+                    return True
+    return False
+
+def NQ(n):
+    if n==0:
+        return True
+    for i in range(N):
+        for j in range(N):
+            if(not(in_danger(i,j))and board[i][j]!=1):
+                board[i][j]=1
+                
+                if NQ(n-1)==True:
+                    return True
+                board[i][j]=0
+                
+NQ(N)
+for i in board:
+    print(i)
+                    
+        
